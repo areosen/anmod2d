@@ -1,0 +1,60 @@
+**
+** Input file for program Decomposition (tst.f)
+**
+-- Nnt and Nnx in the input datasets
+	512,		512
+-- Nt and Nx for transforms (and output)
+	512,		512
+-- Dt and Dx -> 9.848995 if Deltaz=900.
+	0.004,		10.
+-- Maximal frequency (Hz). Zero if unknown. 
+	0.
+-- Receiver depth
+	500.
+-- Rho1 and Rho2
+	1000.,		1000.
+-- VelP1, VelP2 and Qalpha2 
+	1500.,		1500.,		0.
+-- VelS2 and Qbeta2
+	0.01,				0.
+-- Decomposition type: 
+    1 = U/D    on P-comp.  Input: P-, Vz-comp
+    2 = U/D    on Vx-comp. Input: Vx-, Vz-comp
+    3 = U/D    on Vz-comp. Input: P-, Vz-, Vx-comp
+    4 = U/D-PS on P-comp.  Input: P-, Vz-, Vx-comp
+    5 = U/D-PS on Vx-comp. Input: P-, Vz-, Vx-comp
+    6 = U/D-PS on Vz-comp. Input: P-, Vz-, Vx-comp
+    7 = P-Vz rel.
+    8 = P - Z*Vz.
+    9 = U/D on Vz-comp.    Input: Pd-, Vz-, Vx-comp
+   10 = U/D division
+   11 = U/D-PS on Vx-comp. Input: Pd-, Vz-, Vx-comp
+   12 = U/D-PS on Vz-comp. Input: Pd-, Vz-, Vx-comp
+   13 = Test-algoritme
+	13
+-- Input : P-component
+	'./data/pr2d.dat'
+-- Input : Vx-component
+	''
+-- Input : Vz-component
+	'./data/vz2d.dat'
+-- If scaling 'y' and sign-factor for Vz-component
+	'n',	1.
+-- Output (4/5/6) : U/D-PS-wave components
+	''
+	''
+	''
+	''
+-- Output (1/2/3/9/10) Total U/D wave components
+	'./data/up.dat'
+	'./data/do.dat'
+-- Set dimensionality 2 or 3 (2-D or 3-D)
+	2
+-- Choose fk-transform integral (0=FFT, 1=AFHT, 2=FBT)
+	0
+-- Bandpass filtering (Y/N) [only in type : 1/2/3/4/5/6]
+	N
+-- lowcut, lowcorner, highcut, highcorner frequencies
+	6,	9,	80,	60
+
+
