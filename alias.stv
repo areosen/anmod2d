@@ -1,0 +1,79 @@
+#
+# Machines
+#
+alias baloo  ssh -X st-lcmtop01.st.statoil.no
+alias mulan  ssh -X beij-lcatop01.beij.statoil.no
+alias cleo   ssh -X r010101@st.statoil.no
+alias rts001 ssh -X rts001@st.statoil.no
+
+#
+# PSPRO
+#
+alias osl_pspro	'ssh osl-lx637423.osl.statoil.no'
+alias trh_pspro	'ssh tr-lx631527.tr.statoil.no'
+#
+# SDP
+#
+alias sdp_login 	source /prog/sdpsoft/environment.csh
+alias eclipse		/private/areo/eclipse/eclipse/eclipse
+#
+# INT
+#
+alias int_login 	source /private/areo/setup/int_setup.csh
+#
+# GRT
+#
+alias grt_login 	source /private/areo/setup/grt_setup.csh
+#
+# Tiger
+#
+alias tiger_login source ~/setup/tiger_setup.csh
+#
+# SeisSpace
+#
+alias SSclient		/prog/promax/SSclient
+#
+# Paradigm
+#
+alias epos4	source ~/setup/pg_setup_4.csh
+alias epos3te	source ~/setup/pg_setup_TE.csh
+alias epos3se	source ~/setup/pg_setup_SE.csh
+#
+# SPL
+#
+alias spl_login	source ~/setup/spl_setup.csh
+#
+# ---------------
+# other aliases
+#
+# HPC
+# alias aotop	'top -n 1 -b | awk '{if($1=="total") print $0}' '
+# ps -efo user,uid,pid,pcpu,args 
+# grep -B1 : print line before
+alias pbsfreenodes	'/prog/util/bin/pbsfreenodes'
+alias freebw	'pbsnodes -a | grep -B 3 "bigwolf,compute64"| grep "state = free" | wc -l'
+alias freeau	'pbsnodes -a |  grep -B 3 "aurora"| grep "state = free" | wc -l'
+alias freear	'pbsnodes -a | grep -B 3 "archcomp"| grep "state = free" | wc -l'
+alias setdisplay 'setenv DISPLAY PC-382849.client.statoil.net:0.0'
+alias epos	'source Epos3_env_ssh.Linux_ia32_2.3.2_i81'
+#
+# 
+alias dir	ls
+alias del	rm -i
+alias rm        rm -i
+alias type	more
+alias mroe	more
+alias mc	mv
+alias m 	more
+#
+alias purge     '/bin/rm -f *~'
+alias ls        'ls -FCp --color=tty'
+alias l         'ls -FCp --color=tty'
+alias lø         'ls -FCp --color=tty'
+alias ll	'ls -loghpF --color=tty'
+alias lt	'ls -lrtoghpF --color=tty'
+alias ls-l      'ls -loghpF --color=tty'
+alias ls-lrt    'ls -lrtoghpF --color=tty'
+alias pd	pushd
+alias po 	popd
+

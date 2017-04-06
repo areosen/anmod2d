@@ -1,0 +1,114 @@
+;(setq load-path (append load-path '("~/lisp")))
+;(setq load-path (cons "~/lisp/auctex" load-path))
+
+(pc-selection-mode)
+
+(defun print-to-pdf ()
+ (interactive)
+ (ps-spool-buffer-with-faces)
+ (switch-to-buffer "*PostScript*")
+ (write-file "tmp.ps")
+ (kill-buffer "tmp.ps")
+ (setq cmd (concat "ps2pdf14 tmp.ps " (buffer-name) ".pdf"))
+ (shell-command cmd)
+ (shell-command "rm tmp.ps")
+ (message (concat "File printed in : "(buffer-name) ".pdf"))
+ )
+
+;(setq lpr-switches'("-Ppsc72086p"))
+
+;(defvar TeX-lisp-directory "~/lisp/auctex/"
+;  "*The directory where the AUC TeX lisp files are located.")
+
+
+(autoload 'tex-mode "tex" "Automatic select TeX or LaTeX mode" t)
+
+(autoload 'latex-mode "latex" "Mode for LaTeX" t)
+
+(autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
+
+(autoload 'matlab-mode "matlab" "Enter Matlab mode." t)
+
+(autoload 'lisp-mode "lisp" "Enter Lisp mode." t)
+
+(autoload 'f90-mode "f90" "Major mode for editing Fortran 90 code in free format." t)
+
+(autoload 'python-mode "python-mode" "Automatic select Python mode" t)
+
+(setq auto-mode-alist (append auto-mode-alist (list '("\\.f90$" . f90-mode))))
+
+(setq auto-mode-alist (cons '("\\.f$" . fortran-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.inc$" . fortran-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.F90$" . fortran-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.f77$" . fortran-mode) auto-mode-alist))
+
+(setq auto-mode-alist (cons '("\\.make$" . makefile-mode) auto-mode-alist))
+
+(setq auto-mode-alist (cons '("\\.menu$" . lisp-mode) auto-mode-alist))
+
+(setq auto-mode-alist (cons '("\\.m$" . matlab-mode) auto-mode-alist))
+
+(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+(setq interpreter-mode-alist (cons '("python" . python-mode) interpreter-mode-alist))
+
+(autoload 'matlab-shell "matlab" "Interactive Matlab mode." t)
+
+(setq auto-mode-alist (cons '("\\.html$" . html-helper-mode) auto-mode-alist))
+
+(setq auto-mode-alist (append '(("\.tex$" . tex-mode))
+                              auto-mode-alist))
+
+(setq tex-default-mode 'latex-mode)
+
+;(if window-system (require 'hilit-LaTeX))
+;(if window-system (require 'font-LaTeX))
+;(if window-system (require 'bib-cite))
+
+(standard-display-european t)
+
+(global-font-lock-mode t)
+
+(setq font-lock-maximum-decoration t)
+
+(set-input-mode (car (current-input-mode))
+		(nth 1 (current-input-mode))
+		0)
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(cua-mode t nil (cua-base))
+ '(fortran-comment-region "!! "))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
+;;============================================
+;;              GNUPLOT-MODE
+;;============================================
+(autoload 'gnuplot-mode "gnuplot-mode" "gnuplot major mode" t)
+
+;; Automatically load gnuplot mode for all .gp & .gnu extension
+(setq auto-mode-alist (append '(("\\.gp$" . gnuplot-mode)) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.gnu$" . gnuplot-mode)) auto-mode-alist))
+
+;; color background in any color string: #RRGGBB with relevant color
+(autoload 'rainbow-mode "rainbow-mode" "rainblow-mode." t)
+(add-hook 'gnuplot-mode-hook 'rainbow-mode)
+;;============================================
+;;
+;;
+;;
+(global-set-key (kbd "C-c;") 'comment-region) ; Alt+F3
+(global-set-key (kbd "C-c;") 'f90-comment-region) ; Alt+F3
+;
+(define-key 'help-command (kbd "C-l") 'find-library)
+(define-key 'help-command (kbd "C-i") 'info-display-manual)
+;(global-set-key (kbd "C-v")   'yank)                ;;closer on keyboard than "C-y"
+(global-set-key (kbd "C-z")   'undo)                ;;better than "C-_"
+(global-set-key (kbd "C-c-;")  'comment-or-uncomment-region) ;; comment/un-comment region
+(define-key 'help-command (kbd "C-i") 'info-display-manual)
+(global-set-key "\C-ci" 'indent-region)          ;;Indent row/marked region

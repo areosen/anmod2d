@@ -1,0 +1,89 @@
+#---------------------------------------------------------------------
+# Makefile for Seismic Processing using segy/su files
+#---------------------------------------------------------------------
+export SHELL    = /bin/sh
+#---------------------------------------------------------------------
+# Set paths
+#---------------------------------------------------------------------
+export BASE     = $(HOME)/src/processing-f90
+# place program here
+export BINDIR	= $(BASE)/bin
+# find all source code here
+export SRCDIR   = $(BASE)/src
+# place objects and set path
+export OBJDIR   = $(BASE)/obj
+export vpath %.o $(OBJDIR)
+# find libraries here
+export LIBDIR	= $(BASE)/lib
+#---------------------------------------------------------------------
+# Compile and link options
+#---------------------------------------------------------------------
+# compiler
+export F90    	= ifort
+export cc    	= gcc
+# loader
+export LD       = $(F90)
+# compiler options
+export F90OPTS  = -fast
+export COPTS    = 
+# header file locations
+export INCFLAGS = -I$(BASE)/mod
+# loader options and libraries
+export LDFLAGS  = -s $(F90OPTS) -L$(LIBDIR) -L/usr/lib/x86_64-redhat-linux5E/lib64/
+export LIBS     = 
+export PLOTLIBS = 
+#---------------------------------------------------------------------
+# Makefile rules and dependencies
+#---------------------------------------------------------------------
+all:	install
+#
+install:
+	cd $(OBJDIR); $(MAKE)
+#=====================================================================
+# Test of installation
+#=====================================================================
+PROGRAM = ./bin/load_model_segy
+#
+DATADIR    = ./su
+#
+SU_DATA = $(DATADIR)/se_smb.su
+#
+tst:	
+	$(PROGRAM) file=./segy/DataForFWI_4s.js.work53.segy geom=./segy/js.xml pri=cdp sec=tracf ter=offset
+#	$(PROGRAM) file=./segy/work53.omega.segy.JS_v37.V0.hdrfix.segy geom=./segy/js.xml pri=fldr sec=tracf 
+#	$(PROGRAM) file=./segy/CP0501-VP.work53.tommeliten.segy geom=./segy/tl.xml  pri=il sec=xl
+#	$(PROGRAM) file=/near4/survey/Tommeliten/Tommeliten-raw-pressure/001.sgy  pri=ep sec=tracf
+# notok	$(PROGRAM) file=/work53/Tommeliten/WIRE_Run/Test1/10Jul_RealData.sgy  pri=il sec=xl
+#
+foxtst:
+	$(BINDIR)/foxtst
+#---------------------------------------------------------------------
+# obsolete tests
+#---------------------------------------------------------------------
+#
+run:	
+	$(PROGRAM) file1=$(SU_DATA) file2=$(AI_DATA) 	\
+	num_traces=1101 num_wells=3 			\
+	ai_freqs=2,120 op_freqs=4,7,70,90 		\
+	cdp_no=500 mean_traces=20 time_win=0.,3.5 	\
+	out=$(CI_DATA) filter=$(OP_DATA)
+#
+GAIN_OPTS  = tpow=0 agc=0 wagc=2 scale=1
+XWIG_OPTS  = perc=97 xcur=2.0 grid1=dash d1num=0.25 n1tic=2 cmap=rgb'1'\
+	titlefont=Helvetica-Bold titlesize=16                         \
+	labelfont=Helvetica labelsize=14 legend=1                     \
+	labelcolor=black axescolor=black titlecolor=black
+PSPLOT_OPTS  = sugain $(GAIN_OPTS) | supsimage $(XWIG_OPTS) > tst.ps
+#
+plotaimp:
+	cat $(AI_DATA) | \
+	$(PSPLOT_OPTS) title="Acoustic Impedance Section" 
+#---------------------------------------------------------------------
+# Clean up
+#---------------------------------------------------------------------
+.PHONY: clean
+clean:
+	rm -rf a.out core header binary *.o $(OBJDIR)/*.o \
+	$(OBJDIR)/*.mod *.mod *.list rii_files $(PROGS)
+cleandata:
+	rm -rf *.su *.d *.mps *.stom UNIPORT.DAT *.par *.log

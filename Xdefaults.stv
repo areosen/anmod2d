@@ -1,0 +1,10 @@
+TraceDisplay*geometry: 1200x600
+xwigb*geometry: 500x300
+gnuplot*font: lucidasans-bold-12
+gnuplot*line1Color:blue
+gnuplot*ctrlq: on
+
+! gnuplot*font: -misc-fixed-bold-r-normal-15-120-100-100-c-90-iso8859-1
+
+
+#

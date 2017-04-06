@@ -1,0 +1,81 @@
+(setq load-path (append load-path '("~/lisp")))
+(setq load-path (cons "~/lisp/auctex" load-path))
+
+(defun print-to-pdf ()
+ (interactive)
+ (ps-spool-buffer-with-faces)
+ (switch-to-buffer "*PostScript*")
+ (write-file "tmp.ps")
+ (kill-buffer "tmp.ps")
+ (setq cmd (concat "ps2pdf14 tmp.ps " (buffer-name) ".pdf"))
+ (shell-command cmd)
+ (shell-command "rm tmp.ps")
+ (message (concat "File printed in : "(buffer-name) ".pdf"))
+ )
+
+(pc-selection-mode)
+
+;(setq lpr-switches'("-Ppsc72086p"))
+
+(defvar TeX-lisp-directory "~/lisp/auctex/"
+  "*The directory where the AUC TeX lisp files are located.")
+
+(or (assoc TeX-lisp-directory (mapcar 'list load-path))	;No `member' yet.
+    (assoc (substring TeX-lisp-directory 0 -1) ;Without trailing slash.
+	   (mapcar 'list load-path))
+    (setq load-path (cons TeX-lisp-directory load-path)))
+
+(autoload 'tex-mode "tex" "Automatic select TeX or LaTeX mode" t)
+
+(autoload 'latex-mode "latex" "Mode for LaTeX" t)
+
+(autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
+
+(autoload 'matlab-mode "matlab" "Enter Matlab mode." t)
+
+(autoload 'lisp-mode "lisp" "Enter Lisp mode." t)
+
+(autoload 'f90-mode "f90" "Major mode for editing Fortran 90 code in free format." t)
+
+(autoload 'python-mode "python-mode" "Automatic select Python mode" t)
+
+(setq auto-mode-alist (append auto-mode-alist (list '("\\.f90$" . f90-mode))))
+
+(setq auto-mode-alist (cons '("\\.f$" . fortran-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.inc$" . fortran-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.F90$" . fortran-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.f77$" . fortran-mode) auto-mode-alist))
+
+(setq auto-mode-alist (cons '("\\.make$" . makefile-mode) auto-mode-alist))
+
+(setq auto-mode-alist (cons '("\\.menu$" . lisp-mode) auto-mode-alist))
+
+(setq auto-mode-alist (cons '("\\.m$" . matlab-mode) auto-mode-alist))
+
+(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+(setq interpreter-mode-alist (cons '("python" . python-mode) interpreter-mode-alist))
+
+(autoload 'matlab-shell "matlab" "Interactive Matlab mode." t)
+
+(setq auto-mode-alist (cons '("\\.html$" . html-helper-mode) auto-mode-alist))
+
+(setq auto-mode-alist (append '(("\.tex$" . tex-mode))
+                              auto-mode-alist))
+
+(setq tex-default-mode 'latex-mode)
+
+(setq Info-default-directory-list
+      (append Info-default-directory-list '("/project/sw/latex2e/teTeX/info/")))
+(if window-system (require 'hilit-LaTeX))
+;(if window-system (require 'font-LaTeX))
+(if window-system (require 'bib-cite))
+
+(standard-display-european t)
+
+(global-font-lock-mode t)
+
+(setq font-lock-maximum-decoration t)
+
+(set-input-mode (car (current-input-mode))
+		(nth 1 (current-input-mode))
+		0)
